@@ -9,6 +9,12 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+
+
+
+
 
 @dataclass #this is the decorator, through this decorator we directly able to define the class variable ,when we create class variable that time we need init but by using this decorator we don't
 class DataIngestionConfig:
@@ -28,7 +34,6 @@ class DataIngestion:
             df=pd.read_csv('Notebook\data\data.csv')# by changing this line we can read the data from any where
             logging.info("read the dataset as dataframe")                      
             
-                                                                                #if the folder is there no need to create          
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
             
@@ -50,7 +55,8 @@ class DataIngestion:
         except Exception as e :
             raise CustomException(e, sys)
         
-        
 if __name__=="__main__":
     obj=DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data,test_data = obj.initiate_data_ingestion()
+    data_transformation=DataTransformation()
+    data_transformation.initiate_data_transformation(train_data,test_data)
