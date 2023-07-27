@@ -45,19 +45,19 @@ class DataTransformation:
             
             num_pipeline=Pipeline(
                 steps=[#imputer will help you to handle null value
-                    ("imputer",SimpleImputer(strategy="median")),
-                    ("scalar",StandardScaler())
+                ("imputer",SimpleImputer(strategy="median")),
+                ("scalar",StandardScaler())
                 ])
             cat_pipeline=Pipeline(
                 steps=[
-                    ("imputer",SimpleImputer(strategy="most_frequent")),
-                    ("one_hot_encoder",OneHotEncoder()),
-                    ("scalar",StandardScaler())
+                ("imputer",SimpleImputer(strategy="most_frequent")),
+                ("one_hot_encoder",OneHotEncoder()),
+                ("scalar",StandardScaler(with_mean=False))
                 ]
             )
             
             logging.info(f"numerical column : {numerical_columns}")
-            logging.info(f"categorical column : {categorical_columns} ")
+            logging.info(f"categorical column : {categorical_columns}")
             
             preprocessor =ColumnTransformer(
                 [
@@ -84,7 +84,7 @@ class DataTransformation:
             preprocessing_obj = self.get_data_transformation_obj() 
             
             target_column_name="math_score"
-            numerical_columns = ['reading_score','writing_score']
+            numerical_columns = ['writing_score','reading_score']
             
             input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
             target_feature_train_df=train_df[target_column_name]
