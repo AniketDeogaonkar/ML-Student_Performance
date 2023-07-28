@@ -9,9 +9,13 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+
+
+
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
-
+from src.components.model_trainer import ModelTrainer
+from src.components.model_trainer import ModelTrainerConfig
 
 
 
@@ -32,7 +36,7 @@ class DataIngestion:
         logging.info("Entered the data ingestion data method or component")
         try:
             df=pd.read_csv('Notebook\data\data.csv')# by changing this line we can read the data from any where
-            logging.info("read the dataset as dataframe")                      
+            logging.info("read the dataset as data frame")                      
             
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
@@ -61,4 +65,9 @@ if __name__=="__main__":
     
     
     data_transformation=DataTransformation()
-    data_transformation.initiate_data_transformation(train_data,test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+    
+    
+    modeltrainer=ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
+    
