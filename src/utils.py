@@ -3,7 +3,7 @@ import sys
 import dill
 
 from src.exception import CustomException
-import numpy as np 
+import numpy as np
 import pandas as pd
 from sklearn.metrics import r2_score
 
